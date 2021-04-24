@@ -17,4 +17,4 @@ jobs:
 
       - uses: minchao/cfn-nag-action@master
         with:
-          args: '--input-path *.yaml'
+          args: '--input-path .'

@@ -23,6 +23,14 @@ jobs:
           cfn-lint --version
           cfn-lint -t ./*.y*ml
 
-      - uses: minchao/cfn-nag-action@master
+  cfn_nag:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Run cfn_nag
+        uses: minchao/cfn-nag-action@master
         with:
           args: '--input-path .'

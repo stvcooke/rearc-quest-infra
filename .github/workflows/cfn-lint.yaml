@@ -22,3 +22,7 @@ jobs:
         run: |
           cfn-lint --version
           cfn-lint -t ./*.y*ml
+
+      - uses: minchao/cfn-nag-action@master
+        with:
+          args: '--input-path .'

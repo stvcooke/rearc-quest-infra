@@ -38,6 +38,10 @@ module "github_actions_policy" {
   path        = "/"
   description = "Grants access to s3 bucket for terraform remote state, dynamodb table for state locking, and s3 bucket for dropping the plan into."
 
+  depends_on = [
+    module.drop_bucket,
+  ]
+
   policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -45,22 +49,22 @@ module "github_actions_policy" {
     {
       "Effect": "Allow",
       "Action": "s3:ListBucket",
-      "Resource": "${aws_s3_bucket.remote_state_bucket.arn}"
+      "Resource": "${data.aws_s3_bucket.remote_state_bucket.arn}"
     },
     {
       "Effect": "Allow",
       "Action": ["s3:GetObject", "s3:PutObject"],
-      "Resource": "${aws_s3_bucket.remote_state_bucket.arn}/*"
+      "Resource": "${data.aws_s3_bucket.remote_state_bucket.arn}/*"
     },
     {
       "Effect": "Allow",
       "Action": "s3:ListBucket",
-      "Resource": "${module.drop_bucket.arn}"
+      "Resource": "${module.drop_bucket.s3_bucket_arn}"
     },
     {
       "Effect": "Allow",
       "Action": ["s3:GetObject", "s3:PutObject"],
-      "Resource": "${module.drop_bucket.arn}/*"
+      "Resource": "${module.drop_bucket.s3_bucket_arn}/*"
     },
     {
       "Effect": "Allow",
@@ -69,7 +73,7 @@ module "github_actions_policy" {
         "dynamodb:PutItem",
         "dynamodb:DeleteItem"
       ],
-      "Resource": "${aws_dynamodb_table.remote_state_locking_table.arn}"
+      "Resource": "${data.aws_dynamodb_table.remote_state_locking_table.arn}"
     }
   ]
 }

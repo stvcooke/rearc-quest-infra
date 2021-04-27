@@ -1,4 +1,4 @@
-pmodule "drop_bucket" {
+module "drop_bucket" {
   source = "terraform-aws-modules/s3-bucket/aws"
 
   bucket = var.terraform_plan_drop_bucket

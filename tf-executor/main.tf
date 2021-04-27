@@ -31,5 +31,5 @@ data "aws_iam_policy" "admin_policy" {
 }
 
 data "aws_s3_bucket" "drop_bucket" {
-  vucket = var.terraform_plan_drop_bucket
+  bucket = var.terraform_plan_drop_bucket
 }

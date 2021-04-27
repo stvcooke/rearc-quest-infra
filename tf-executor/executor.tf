@@ -16,8 +16,8 @@ module "lambda_function" {
 
 resource "aws_iam_role" "executor_role" {
   name                = "rearc-quest-terraform-apply-role"
-  assume_role_policy  = aws_iam_policy.executor_assume_policy.instance-assume-role-policy.json
-  managed_policy_arns = [aws_iam_policy.admin_policy.arn]
+  assume_role_policy  = data.aws_iam_policy_document.executor_assume_policy.json
+  managed_policy_arns = [data.aws_iam_policy.admin_policy.arn]
 }
 
 data "aws_iam_policy_document" "executor_assume_policy" {
@@ -37,11 +37,11 @@ resource "aws_lambda_permission" "allow_bucket" {
   action        = "lambda:InvokeFunction"
   function_name = module.lambda_function.lambda_function_arn
   principal     = "s3.amazonaws.com"
-  source_arn    = aws_s3_bucket.drop_bucket.arn
+  source_arn    = data.aws_s3_bucket.drop_bucket.arn
 }
 
 resource "aws_s3_bucket_notification" "drop_bucket_notification" {
-  bucket = aws_s3_bucket.drop_bucket.id
+  bucket = data.aws_s3_bucket.drop_bucket.id
 
   lambda_function {
     id                  = "rearc-quest-drop-notification"

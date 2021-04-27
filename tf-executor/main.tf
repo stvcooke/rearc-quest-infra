@@ -7,10 +7,10 @@ terraform {
   }
 
   backend "s3" {
-    bucket = "${var.remote_state_cfn_name}-tf-state"
-    key = "${path.module}/prod/pipeline"
-    dynamodb_table = "${var.remote_state_cfn_name}-tf-state-locking"
-    region = var.aws_region
+    bucket = "rearc-quest-infra-tf-state"
+    key = "rearc-quest-infra/prod/tf-executor"
+    dynamodb_table = "rearc-quest-infra-tf-state-locking"
+    region = "us-east-2"
   }
 }
 

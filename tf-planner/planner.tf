@@ -112,7 +112,7 @@ module "github_actions_deny_policy" {
         "sqs:ReceiveMessage"
       ],
       "Resource": "*"
-    },
+    }
   ]
 }
 EOF

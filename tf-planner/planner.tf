@@ -80,7 +80,55 @@ module "github_actions_policy" {
 EOF
 }
 
+module "github_actions_deny_policy" {
+  source  = "terraform-aws-modules/iam/aws//modules/iam-policy"
+  version = "~> 3.0"
+
+  name        = "RestrictReadOnlyAccess"
+  path        = "/"
+  description = "Removes some access giving to ReadOnlyAccess"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "DenyData",
+      "Effect": "Deny",
+      "Action": [
+        "cloudformation:GetTemplate",
+        "dynamodb:BatchGetItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "ec2:GetConsoleOutput",
+        "ec2:GetConsoleScreenshot",
+        "ecr:BatchGetImage",
+        "ecr:GetAuthorizationToken",
+        "ecr:GetDownloadUrlForLayer",
+        "kinesis:Get*",
+        "lambda:GetFunction",
+        "logs:GetLogEvents",
+        "sdb:Select*",
+        "sqs:ReceiveMessage"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+EOF
+}
+
 resource "aws_iam_user_policy_attachment" "github_actions_user_policy_attachment" {
   user       = module.github_actions_user.this_iam_user_name
   policy_arn = module.github_actions_policy.arn
+}
+
+resource "aws_iam_user_policy_attachment" "github_actions_read_policy_attachment" {
+  user       = module.github_actions_user.this_iam_user_name
+  policy_arn = data.aws_iam_policy.read_only_access.arn
+}
+
+resource "aws_iam_user_policy_attachment" "github_actions_deny_policy_attachment" {
+  user       = module.github_actions_user.this_iam_user_name
+  policy_arn = module.github_actions_deny_policy.arn
 }

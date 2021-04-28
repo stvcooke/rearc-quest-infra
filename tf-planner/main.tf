@@ -25,3 +25,7 @@ data "aws_s3_bucket" "remote_state_bucket" {
 data "aws_dynamodb_table" "remote_state_locking_table" {
   name = "${var.remote_state_cfn_name}-tf-state-locking"
 }
+
+data "aws_iam_policy" "read_only_access" {
+  arn = "arn:aws:iam::aws:policy/ReadOnlyAccess"
+}

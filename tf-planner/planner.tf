@@ -128,7 +128,7 @@ resource "aws_iam_user_policy_attachment" "github_actions_read_policy_attachment
   policy_arn = data.aws_iam_policy.read_only_access.arn
 }
 
-resource "aws_iam_user_policy_attachment" "github_actions_user_policy_attachment" {
+resource "aws_iam_user_policy_attachment" "github_actions_deny_policy_attachment" {
   user       = module.github_actions_user.this_iam_user_name
   policy_arn = module.github_actions_deny_policy.arn
 }

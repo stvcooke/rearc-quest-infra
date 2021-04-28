@@ -3,7 +3,7 @@ module "lambda_function" {
 
   function_name = "rearc-quest-terraform-apply"
   description   = "Terraform apply function"
-  handler       = "handler"
+  handler       = "service.handler"
   runtime       = "python3.8"
 
   create_role = false

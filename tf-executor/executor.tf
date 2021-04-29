@@ -5,6 +5,7 @@ module "lambda_function" {
   description   = "Terraform apply function"
   handler       = "service.handler"
   runtime       = "python3.8"
+  timeout       = 300
 
   create_role = false
   lambda_role = aws_iam_role.executor_role.arn

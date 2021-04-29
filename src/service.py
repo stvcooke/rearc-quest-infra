@@ -6,6 +6,8 @@ import urllib.request, urllib.parse, urllib.error
 
 import boto3
 
+from zipfile import ZipFile
+
 
 # Version of Terraform that we're using
 TERRAFORM_VERSION = '0.15.1'
@@ -52,9 +54,14 @@ def install_terraform():
     # Flags:
     #   '-o' = overwrite existing files without prompting
     #   '-d' = output directory
-    check_call(['unzip', '-o', '/tmp/terraform.zip', '-d', TERRAFORM_DIR])
+    # check_call(['unzip', '-o', '/tmp/terraform.zip', '-d', TERRAFORM_DIR])
+    with ZipFile('/tmp/terraform.zip', 'r') as zipObj:
+        zipObj.extractall(TERRAFORM_DIR)
+
+    check_call(['chmod', '+x', TERRAFORM_PATH])
 
     check_call([TERRAFORM_PATH, '--version'])
+    check_call([TERRAFORM_PATH, '-chdir=/tmp', 'init'])
 
 
 def apply_terraform_plan(s3_bucket, path):

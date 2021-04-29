@@ -8,7 +8,7 @@ import boto3
 
 
 # Version of Terraform that we're using
-TERRAFORM_VERSION = '0.8.5'
+TERRAFORM_VERSION = '0.15.1'
 
 # Download URL for Terraform
 TERRAFORM_DOWNLOAD_URL = (

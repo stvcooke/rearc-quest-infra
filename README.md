@@ -1,6 +1,8 @@
 # rearc-quest-infra
 
-This repository is to aid in the deployment of Terraform files in stvcooke/rearc-quest. It probably should be called "pipeline" instead of "infra", but that's okay for now.
+This repository was to aid in the deployment of Terraform files in stvcooke/rearc-quest. It probably should be called "pipeline" instead of "infra", but it doesn't matter since this has failed.
+
+The terraform executor needs access to the source code repository, it can't get by on just the plan itself. Ideally, there'd be an EBS volume attachment, github tokens used, and execution done not in `/tmp/`. 
 
 It sets up a remote state through CloudFormation in `remote-state.yaml`, then sets up an two step pipeline for infrastructure deployment.
 1. The first step is in github actions which essentially does a terraform plan and deposits the plan file into s3. The IAM and S3 resources are declared in `tf-planner/planner.tf` while the github actions are in the `.github/workflows/tf-plan.yaml` of the rearc-quest repository.
